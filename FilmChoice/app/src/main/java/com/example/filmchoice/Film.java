@@ -1,6 +1,9 @@
 package com.example.filmchoice;
 
-public class Film {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Film implements Parcelable {
     Integer id;
     String name;
     String genres;
@@ -30,6 +33,40 @@ public class Film {
         this.year = year;
         this.rating = rating;
     }
+
+    protected Film(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        name = in.readString();
+        genres = in.readString();
+        actors = in.readString();
+        director = in.readString();
+        if (in.readByte() == 0) {
+            year = null;
+        } else {
+            year = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            rating = null;
+        } else {
+            rating = in.readDouble();
+        }
+    }
+
+    public static final Creator<Film> CREATOR = new Creator<Film>() {
+        @Override
+        public Film createFromParcel(Parcel in) {
+            return new Film(in);
+        }
+
+        @Override
+        public Film[] newArray(int size) {
+            return new Film[size];
+        }
+    };
 
     public Integer getId() {
         return id;
@@ -85,5 +122,36 @@ public class Film {
 
     public void setRating(Double rating) {
         this.rating = rating;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(id);
+        }
+        dest.writeString(name);
+        dest.writeString(genres);
+        dest.writeString(actors);
+        dest.writeString(director);
+        if (year == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(year);
+        }
+        if (rating == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(rating);
+        }
     }
 }

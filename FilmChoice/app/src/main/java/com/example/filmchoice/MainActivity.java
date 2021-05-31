@@ -1,13 +1,20 @@
 package com.example.filmchoice;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    List<Film> films;
+    RecyclerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         db.addFilm(new Film("Interstellar", "Sci-Fi", "Matthew McConaughey", "Christopher Nolan", 2014, 9.1));
 
         Log.d("Reading: ", "Reading all contacts...");
-        List<Film> films = db.getAllFilms();
+        films = db.getAllFilms();
 
         for (Film f : films)
         {
@@ -32,5 +39,26 @@ public class MainActivity extends AppCompatActivity {
                     + f.getYear() + ", Rating: " + f.getRating();
             Log.d("Film: ", log);
         }
+
+        RecyclerView view = findViewById(R.id.recycleFilms);
+        adapter = new RecyclerAdapter(films);
+        view.setAdapter(adapter);
+        view.setLayoutManager(new LinearLayoutManager(this));
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Film film = data.getParcelableExtra("film");
+        for(Film f : films)
+        {
+            if(f.getName().equals(film.getName()))
+                f.setRating(film.getRating());
+        }
+
+        adapter.notifyDataSetChanged();
     }
 }
