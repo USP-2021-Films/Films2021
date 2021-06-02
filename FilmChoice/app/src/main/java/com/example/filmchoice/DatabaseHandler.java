@@ -54,7 +54,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_ACTORS, film.getActors());
         values.put(KEY_DIRECTOR, film.getDirector());
         values.put(KEY_YEAR, film.getYear());
-        values.put(KEY_RATING, film.getYear());
+        values.put(KEY_RATING, film.getRating());
 
         db.insert(TABLE_FILMS, null, values);
         db.close();
@@ -113,7 +113,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_ACTORS, film.getActors());
         values.put(KEY_DIRECTOR, film.getDirector());
         values.put(KEY_YEAR, film.getYear());
-        values.put(KEY_RATING, film.getYear());
+        values.put(KEY_RATING, film.getRating());
 
         return db.update(TABLE_FILMS, values, KEY_ID + " = ?",
                 new String[]{ String.valueOf(film.getId())});

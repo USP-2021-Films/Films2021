@@ -44,10 +44,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<DataHolder>{
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(context, MainActivity2.class);
+                Intent i = new Intent(v.getContext(), ShowFilm.class);
                 i.putExtra("film", item);
-                ((Activity)context).startActivityForResult(i, 1002);
-
+                v.getContext().startActivity(i);
             }
         });
     }
@@ -55,5 +54,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<DataHolder>{
     @Override
     public int getItemCount() {
        return filmList.size();
+    }
+
+    public void updateList(List<Film> list){
+        filmList = list;
+        notifyDataSetChanged();
     }
 }
