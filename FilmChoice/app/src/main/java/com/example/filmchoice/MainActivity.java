@@ -2,10 +2,13 @@ package com.example.filmchoice;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -27,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
         DatabaseHandler db = new DatabaseHandler(this);
 
@@ -51,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView view = findViewById(R.id.recycleFilms);
 
         FloatingActionButton btnAdd = (FloatingActionButton) findViewById(R.id.addButton);
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         view.setLayoutManager(new LinearLayoutManager(this));
 
         EditText searchFilter = (EditText) findViewById(R.id.searchFilter);
+
         searchFilter.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -105,10 +112,11 @@ public class MainActivity extends AppCompatActivity {
             //use .toLowerCase() for better matches
             if(f.getDirector().toLowerCase().contains(text.toLowerCase()) || f.getActors().toLowerCase().contains(text.toLowerCase())
                     || Integer.toString(f.getYear()).equals(text) || f.getName().contains(text)
-            || f.getGenres().contains(text)){
+                    || f.getGenres().contains(text)){
                 temp.add(f);
             }
         }
         adapter.updateList(temp);
     }
+
 }

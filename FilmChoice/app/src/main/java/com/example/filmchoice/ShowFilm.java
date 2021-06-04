@@ -11,41 +11,41 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+
 public class ShowFilm extends AppCompatActivity {
     LayoutInflater inflater;
     View layout;
     PopupWindow popUp;
-
+    Film film2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show);
 
-        TextView name = (TextView) findViewById(R.id.textName2);
-        TextView genres = (TextView) findViewById(R.id.textGenres);
-        TextView actors = (TextView) findViewById(R.id.textActors);
-        TextView director = (TextView) findViewById(R.id.textDirector);
-        TextView year = (TextView) findViewById(R.id.textYear);
-        TextView rating = (TextView) findViewById(R.id.textRating2);
+        assert getSupportActionBar() != null;   //null check
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //show back button
+
 
         Intent i = getIntent();
         Film film = i.getParcelableExtra("film");
         int id = film.getId();
         DatabaseHandler db = new DatabaseHandler(ShowFilm.this);
-        Film film2 = db.getFilm(id);
+        film2 = db.getFilm(id);
 
-        name.setText("Name: " + film2.getName());
-        genres.setText("Genre: " + film2.getGenres());
-        actors.setText("Actor: " + film2.getActors());
-        director.setText("Director: " + film2.getDirector());
-        year.setText("Year: " + film2.getYear().toString());
-        rating.setText("Rating: " + film2.getRating().toString() + "/10");
+        ArrayList<FilmArray> arrayOfFilms = FilmArraySource.generateItemsList(film2);
+
+        FilmArrayAdapter adapter = new FilmArrayAdapter(this, arrayOfFilms);
+
+        ListView listView = findViewById(R.id.listFilm);
+        listView.setAdapter(adapter);
 
 
         FloatingActionButton btnDelete = (FloatingActionButton) findViewById(R.id.floatingDelete);
@@ -118,5 +118,11 @@ public class ShowFilm extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
