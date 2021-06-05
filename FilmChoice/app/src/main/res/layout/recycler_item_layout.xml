@@ -12,26 +12,31 @@
         android:layout_weight="1"
         android:background="@drawable/border"
         android:gravity="center"
-        android:textSize="24sp" />
+        android:textColorHighlight="#80BB86FC"
+        android:textColorLink="@color/purple_200"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/textRating"
         android:layout_width="110dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="clip_horizontal|center_vertical"
-        android:textAlignment="viewEnd"
+        android:gravity="center"
+        android:textAlignment="textEnd"
+        android:textColorHighlight="#80BB86FC"
+        android:textColorLink="@color/purple_200"
         android:textSize="24sp" />
 
     <ImageView
         android:id="@+id/imageStar"
         android:layout_width="110dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:baselineAlignBottom="false"
         android:cropToPadding="false"
-        android:textAlignment="viewStart"
+        android:scaleType="fitCenter"
+        android:textAlignment="gravity"
         app:srcCompat="@drawable/ratingstar" />
 
 </LinearLayout>

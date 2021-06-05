@@ -62,7 +62,7 @@ public class AddActivity extends AppCompatActivity {
                 film.setYear(Integer.parseInt(year.getText().toString()));
                 film.setRating(Double.parseDouble(rating.getText().toString()));
 
-                ShowPopUp(film, rating);
+                ShowPopUp(film, name, genre, actor, director, year, rating);
             }
         });
 
@@ -75,7 +75,7 @@ public class AddActivity extends AppCompatActivity {
         startActivity(new Intent(this, MainActivity.class));
     }
 
-    public void ShowPopUp(Film film, EditText rating) {
+    public void ShowPopUp(Film film, EditText name, EditText genres, EditText actors, EditText director, EditText year, EditText rating) {
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
         int width = displayMetrics.widthPixels;
         int height = displayMetrics.heightPixels;
@@ -114,6 +114,14 @@ public class AddActivity extends AppCompatActivity {
                     film.setRating(Double.valueOf(Integer.parseInt(rating.getText().toString())));
                 }
                 db.addFilm(film);
+
+                name.setText(null);
+                genres.setText(null);
+                actors.setText(null);
+                director.setText(null);
+                year.setText(null);
+                rating.setText(null);
+
                 popUp.dismiss();
 
             }

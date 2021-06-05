@@ -111,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
             //or use .equal(text) with you want equal match
             //use .toLowerCase() for better matches
             if(f.getDirector().toLowerCase().contains(text.toLowerCase()) || f.getActors().toLowerCase().contains(text.toLowerCase())
-                    || Integer.toString(f.getYear()).equals(text) || f.getName().contains(text)
-                    || f.getGenres().contains(text)){
+                    || Integer.toString(f.getYear()).equals(text) || f.getName().toLowerCase().contains(text.toLowerCase())
+                    || f.getGenres().toLowerCase().contains(text.toLowerCase())){
                 temp.add(f);
             }
         }

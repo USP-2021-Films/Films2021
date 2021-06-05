@@ -46,6 +46,7 @@ public class ShowFilm extends AppCompatActivity {
 
         ListView listView = findViewById(R.id.listFilm);
         listView.setAdapter(adapter);
+        listView.setDivider(getDrawable(R.drawable.border));
 
 
         FloatingActionButton btnDelete = (FloatingActionButton) findViewById(R.id.floatingDelete);
