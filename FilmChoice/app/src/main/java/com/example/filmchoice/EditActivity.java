@@ -168,7 +168,7 @@ public class EditActivity extends AppCompatActivity {
                 case R.id.editGenres:
                 case R.id.editActors:
                 case R.id.editDirector:
-                    if(et.getText().toString().isEmpty() || et.getText().toString().trim().length()<4)
+                    if(et.getText().toString().matches("") || et.getText().toString().trim().length()<4)
                     {
                         et.setError("Поне 4 символа!");
                         btn.setEnabled(false);
@@ -179,7 +179,7 @@ public class EditActivity extends AppCompatActivity {
                     }
                     break;
                 case R.id.editYear:
-                    if(et.getText().toString().isEmpty() || et.getText().toString().length()!=4
+                    if(et.getText().toString().matches("") || et.getText().toString().length()!=4
                             || Integer.parseInt(et.getText().toString().trim()) <1888 || Integer.parseInt(et.getText().toString().trim()) >2049)
                     {
                         et.setError("Неправилна година!");
@@ -191,7 +191,7 @@ public class EditActivity extends AppCompatActivity {
                     }
                     break;
                 case R.id.editRating:
-                    if(et.getText().toString().isEmpty())
+                    if(et.getText().toString().matches(""))
                     {
                         et.setError("Неправилен рейтинг!");
                         btn.setEnabled(false);

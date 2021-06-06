@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,7 @@ public class AddActivity extends AppCompatActivity {
         EditText rating = (EditText) findViewById(R.id.addRating);
 
         Button btnFinish = (Button) findViewById(R.id.addFinish);
+        btnFinish.setEnabled(false);
 
         name.addTextChangedListener(new Validation(name, btnFinish));
         genre.addTextChangedListener(new Validation(genre, btnFinish));
@@ -54,15 +56,24 @@ public class AddActivity extends AppCompatActivity {
         btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Film film = new Film();
-                film.setName(name.getText().toString());
-                film.setGenres(genre.getText().toString());
-                film.setActors(actor.getText().toString());
-                film.setDirector(director.getText().toString());
-                film.setYear(Integer.parseInt(year.getText().toString()));
-                film.setRating(Double.parseDouble(rating.getText().toString()));
+                if(name.getText().toString().matches("") || genre.getText().toString().matches("")
+                        || actor.getText().toString().matches("") || director.getText().toString().matches("")
+                        || year.getText().toString().matches("") || rating.getText().toString().matches(""))
+                {
+                    Toast.makeText(AddActivity.this, "Грешни данни!",
+                            Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Film film = new Film();
+                    film.setName(name.getText().toString());
+                    film.setGenres(genre.getText().toString());
+                    film.setActors(actor.getText().toString());
+                    film.setDirector(director.getText().toString());
+                    film.setYear(Integer.parseInt(year.getText().toString()));
+                    film.setRating(Double.parseDouble(rating.getText().toString()));
 
-                ShowPopUp(film, name, genre, actor, director, year, rating);
+                    ShowPopUp(film, name, genre, actor, director, year, rating);
+                }
             }
         });
 
@@ -109,20 +120,23 @@ public class AddActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 db = new DatabaseHandler(AddActivity.this);
-                if(tryParseInt(rating.getText().toString().trim()) != null)
-                {
-                    film.setRating(Double.valueOf(Integer.parseInt(rating.getText().toString())));
-                }
-                db.addFilm(film);
 
-                name.setText(null);
-                genres.setText(null);
-                actors.setText(null);
-                director.setText(null);
-                year.setText(null);
-                rating.setText(null);
 
-                popUp.dismiss();
+
+                    if (tryParseInt(rating.getText().toString().trim()) != null) {
+                        film.setRating(Double.valueOf(Integer.parseInt(rating.getText().toString())));
+                    }
+                    db.addFilm(film);
+
+                    name.setText(null);
+                    genres.setText(null);
+                    actors.setText(null);
+                    director.setText(null);
+                    year.setText(null);
+                    rating.setText(null);
+
+                    popUp.dismiss();
+
 
             }
         });
@@ -147,16 +161,16 @@ public class AddActivity extends AppCompatActivity {
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             this.et.getId();
+
             switch (this.et.getId())
             {
                 case R.id.addName:
-                    if(et.getText().toString().isEmpty())
+                    if(et.getText().toString().matches(""))
                     {
                         et.setError("Празно поле!");
                         btn.setEnabled(false);
@@ -182,7 +196,7 @@ public class AddActivity extends AppCompatActivity {
                 case R.id.addGenres:
                 case R.id.addActors:
                 case R.id.addDirector:
-                    if(et.getText().toString().isEmpty() || et.getText().toString().trim().length()<4)
+                    if(et.getText().toString().matches("") || et.getText().toString().trim().length()<4)
                     {
                         et.setError("Поне 4 символа!");
                         btn.setEnabled(false);
@@ -193,7 +207,7 @@ public class AddActivity extends AppCompatActivity {
                     }
                     break;
                 case R.id.addYear:
-                    if(et.getText().toString().isEmpty() || et.getText().toString().trim().length()!=4
+                    if(et.getText().toString().matches("") || et.getText().toString().trim().length()!=4
                             || Integer.parseInt(et.getText().toString()) <1888 || Integer.parseInt(et.getText().toString()) >2049)
                     {
                         et.setError("Неправилна година!");
@@ -205,7 +219,7 @@ public class AddActivity extends AppCompatActivity {
                     }
                     break;
                 case R.id.addRating:
-                    if(et.getText().toString().isEmpty())
+                    if(et.getText().toString().matches(""))
                     {
                         et.setError("Неправилен рейтинг!");
                         btn.setEnabled(false);
